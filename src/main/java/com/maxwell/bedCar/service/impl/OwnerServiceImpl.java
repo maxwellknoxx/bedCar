@@ -32,6 +32,14 @@ public class OwnerServiceImpl implements OwnerService {
 		return ownerModel;
 	}
 
+	public OwnerEntity findEntityById(Long id) {
+		OwnerEntity entity = repository.findById(id).orElseThrow();
+		if (entity == null) {
+			throw new ResourceNotFoundException("Owner " + id + " does not exist");
+		}
+		return entity;
+	}
+
 	@Override
 	public OwnerModel addOwner(OwnerEntity owner) {
 		try {

@@ -5,14 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-@Builder
 @Getter
 @Setter
 @ToString
-public class VehicleModel {
-
-	private long id;
-	private String carPlate;
-	private SpaceModel space;
+@Builder
+public class SpaceModel {
+	
+	private Long id;
+	private Boolean busy;
 
 }

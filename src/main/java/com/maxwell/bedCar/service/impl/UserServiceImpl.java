@@ -31,6 +31,14 @@ public class UserServiceImpl implements UserService {
 		}
 		return userModel;
 	}
+	
+	public UserEntity findEntityById(Long id) {
+		UserEntity entity = repository.findById(id).orElseThrow();
+		if (entity == null) {
+			throw new ResourceNotFoundException("User " + id + " not found!");
+		}
+		return entity;
+	}
 
 	@Override
 	public UserModel create(UserEntity user) {

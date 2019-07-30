@@ -32,6 +32,14 @@ public class VehicleServiceImpl implements VehicleService {
 		return vehicleModel;
 	}
 
+	public VehicleEntity findEntityById(Long id) {
+		VehicleEntity entity = repository.findById(id).orElseThrow();
+		if (entity == null) {
+			throw new ResourceNotFoundException("Vehicle " + id + " does not exist");
+		}
+		return entity;
+	}
+
 	@Override
 	public VehicleModel addVehicle(VehicleEntity vehicle) {
 		try {

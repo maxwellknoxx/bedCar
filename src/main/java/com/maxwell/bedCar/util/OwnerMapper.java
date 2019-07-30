@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.maxwell.bedCar.entity.OwnerEntity;
 import com.maxwell.bedCar.model.OwnerModel;
+import com.maxwell.bedCar.model.RegisterMonthlyRequest;
 
 @Component
 public class OwnerMapper {
@@ -23,6 +24,12 @@ public class OwnerMapper {
 						.documentNumber(entity.getDocumentNumber()).address(entity.getAddress())
 						.vehicles(VehicleMapper.entitiesToModels(entity.getVehicles())).build())
 				.collect(Collectors.toList());
+	}
+
+	public static OwnerEntity monthlyRequestToEntity(RegisterMonthlyRequest requestEntity) {
+		return OwnerEntity.builder().id(requestEntity.getOwnerId()).name(requestEntity.getOwnerName())
+				.documentNumber(requestEntity.getOwnerDocumentNumber()).address(requestEntity.getOwnerAddress())
+				.vehicles(requestEntity.getVehicles()).build();
 	}
 
 }
