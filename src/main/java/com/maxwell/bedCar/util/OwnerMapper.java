@@ -15,13 +15,17 @@ public class OwnerMapper {
 
 	public static OwnerModel entityToModel(OwnerEntity entity) {
 		return OwnerModel.builder().id(entity.getId()).name(entity.getName()).documentNumber(entity.getDocumentNumber())
-				.address(entity.getAddress()).vehicles(VehicleMapper.entitiesToModels(entity.getVehicles())).build();
+				.address(entity.getAddress()).subscriptionDate(entity.getSubscriptionDate()).plan(entity.getPlan())
+				.payments(PaymentMapper.entitiesToModelList(entity.getPayments()))
+				.vehicles(VehicleMapper.entitiesToModels(entity.getVehicles())).build();
 	}
 
 	public static List<OwnerModel> entitiesToModels(List<OwnerEntity> entities) {
 		return entities.stream().filter(Objects::nonNull)
 				.map(entity -> OwnerModel.builder().id(entity.getId()).name(entity.getName())
 						.documentNumber(entity.getDocumentNumber()).address(entity.getAddress())
+						.subscriptionDate(entity.getSubscriptionDate()).plan(entity.getPlan())
+						.payments(PaymentMapper.entitiesToModelList(entity.getPayments()))
 						.vehicles(VehicleMapper.entitiesToModels(entity.getVehicles())).build())
 				.collect(Collectors.toList());
 	}

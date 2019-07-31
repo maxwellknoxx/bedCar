@@ -17,6 +17,9 @@ public class OwnerModel {
 	private String name;
 	private String documentNumber;
 	private String address;
+	private String plan;
+	private String subscriptionDate;
+	private List<PaymentModel> payments;
 	private List<VehicleModel> vehicles;
 	
 }

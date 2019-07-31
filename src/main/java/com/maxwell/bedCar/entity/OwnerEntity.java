@@ -44,8 +44,17 @@ public class OwnerEntity {
 	@Column(name = "address", nullable = false)
 	private String address;
 
+	@Column(name = "plan", nullable = false)
+	private String plan;
+
+	@Column(name = "subscription_date", nullable = false)
+	private String subscriptionDate;
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
+	private List<PaymentEntity> payments;
+
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "owner_has_vehicles", joinColumns = @JoinColumn(name = "owner_id"), inverseJoinColumns = @JoinColumn(name = "vehicle_id"))
 	private List<VehicleEntity> vehicles;
-	
+
 }
