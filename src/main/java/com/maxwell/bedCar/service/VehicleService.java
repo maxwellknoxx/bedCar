@@ -15,6 +15,6 @@ public interface VehicleService {
 
 	VehicleModel updateVehicle(VehicleEntity vehicle);
 
-	void removeVehicle(Long id);
+	Boolean removeVehicle(Long id);
 
 }

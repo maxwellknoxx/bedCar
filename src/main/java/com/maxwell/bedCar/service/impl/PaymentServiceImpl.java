@@ -1,7 +1,6 @@
 package com.maxwell.bedCar.service.impl;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,11 +25,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public PaymentModel findById(Long id) {
-		PaymentModel model = PaymentMapper.entityToModel(repository.findById(id).orElseThrow());
-		if (Objects.isNull(model)) {
-			throw new ResourceNotFoundException("Payment " + id + " not found");
-		}
-		return model;
+		return PaymentMapper.entityToModel(repository.findById(id).orElseThrow());
 	}
 
 	@Override
@@ -44,11 +39,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public PaymentModel findByOwnerId(Long id) {
-		PaymentModel model = PaymentMapper.entityToModel(repository.findByOwnerId(id));
-		if (Objects.isNull(model)) {
-			throw new ResourceNotFoundException("Payment " + id + " not found");
-		}
-		return model;
+		return PaymentMapper.entityToModel(repository.findByOwnerId(id));
 	}
 
 }

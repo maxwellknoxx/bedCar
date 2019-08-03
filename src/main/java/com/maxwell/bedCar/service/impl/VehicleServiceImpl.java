@@ -25,19 +25,11 @@ public class VehicleServiceImpl implements VehicleService {
 
 	@Override
 	public VehicleModel findById(Long id) {
-		VehicleModel vehicleModel = VehicleMapper.entityToModel(repository.findById(id).orElseThrow());
-		if (vehicleModel == null) {
-			throw new ResourceNotFoundException("Vehicle " + id + " does not exist");
-		}
-		return vehicleModel;
+		return VehicleMapper.entityToModel(repository.findById(id).orElseThrow());
 	}
 
 	public VehicleEntity findEntityById(Long id) {
-		VehicleEntity entity = repository.findById(id).orElseThrow();
-		if (entity == null) {
-			throw new ResourceNotFoundException("Vehicle " + id + " does not exist");
-		}
-		return entity;
+		return repository.findById(id).orElseThrow();
 	}
 
 	@Override
@@ -59,12 +51,13 @@ public class VehicleServiceImpl implements VehicleService {
 	}
 
 	@Override
-	public void removeVehicle(Long id) {
+	public Boolean removeVehicle(Long id) {
 		VehicleModel vehicleModel = VehicleMapper.entityToModel(repository.findById(id).orElseThrow());
 		if (vehicleModel == null) {
-			throw new ResourceNotFoundException("Vehicle " + id + " does not exist");
+			return false;
 		}
 		repository.deleteById(id);
+		return true;
 	}
 
 }

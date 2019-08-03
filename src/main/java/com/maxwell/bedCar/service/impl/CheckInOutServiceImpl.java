@@ -1,7 +1,6 @@
 package com.maxwell.bedCar.service.impl;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,20 +25,12 @@ public class CheckInOutServiceImpl implements CheckInOutService {
 
 	@Override
 	public CheckInOutModel findById(Long id) {
-		CheckInOutModel model = CheckInOutMapper.entityToModel(repository.findById(id).orElseThrow());
-		if (Objects.isNull(model)) {
-			throw new ResourceNotFoundException("Record " + id + " does not exist");
-		}
-		return model;
+		return CheckInOutMapper.entityToModel(repository.findById(id).orElseThrow());
 	}
 
 	@Override
 	public CheckInOutModel findByCarPlate(String carPlate) {
-		CheckInOutModel model = CheckInOutMapper.entityToModel(repository.findByCarPlate(carPlate));
-		if (Objects.isNull(model)) {
-			throw new ResourceNotFoundException("Car plate " + carPlate + " does not exist");
-		}
-		return model;
+		return CheckInOutMapper.entityToModel(repository.findByCarPlate(carPlate));
 	}
 
 	@Override

@@ -12,9 +12,11 @@ import lombok.ToString;
 public class CheckInOutModel {
 
 	private Long id;
+	private String checkInDate;
 	private String checkInHour;
 	private String checkOutHour;
 	private String carPlate;
+	private String value;
 	private Long spaceId;
 	
 }

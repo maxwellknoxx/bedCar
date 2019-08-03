@@ -23,6 +23,9 @@ public class CheckInOutEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@Column(name = "checkin_data", nullable = false)
+	private String checkInDate;
+	
 	@Column(name = "check_in_hour", nullable = false)
 	private String checkInHour;
 	
@@ -31,6 +34,9 @@ public class CheckInOutEntity {
 	
 	@Column(name = "car_plate", nullable = false)
 	private String carPlate;
+	
+	@Column(name = "value", nullable = true)
+	private String value;
 	
 	@Column(name = "space_id", nullable = false)
 	private Long spaceId;

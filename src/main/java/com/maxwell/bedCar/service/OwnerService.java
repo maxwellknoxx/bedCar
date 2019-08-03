@@ -15,6 +15,6 @@ public interface OwnerService {
 
 	OwnerModel updateOwner(OwnerEntity owner);
 
-	void removeOwner(Long id);
+	Boolean removeOwner(Long id);
 
 }

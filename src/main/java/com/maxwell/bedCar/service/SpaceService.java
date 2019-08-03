@@ -15,6 +15,6 @@ public interface SpaceService {
 
 	SpaceModel update(SpaceEntity space);
 
-	void remove(Long id);
+	Boolean remove(Long id);
 
 }

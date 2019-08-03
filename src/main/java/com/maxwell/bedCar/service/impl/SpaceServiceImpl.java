@@ -20,12 +20,13 @@ public class SpaceServiceImpl implements SpaceService {
 	private SpaceRepository repository;
 
 	@Override
-	public void remove(Long id) {
+	public Boolean remove(Long id) {
 		SpaceEntity entity = repository.findById(id).orElseThrow();
 		if (Objects.isNull(entity)) {
-			throw new ResourceNotFoundException("Space " + id + " not found");
+			return false;
 		}
 		repository.deleteById(id);
+		return true;
 	}
 
 	@Override
@@ -36,21 +37,12 @@ public class SpaceServiceImpl implements SpaceService {
 	@Override
 	public SpaceModel findById(Long id) {
 		SpaceEntity entity = repository.findById(id).orElseThrow();
-		if (Objects.isNull(entity)) {
-			throw new ResourceNotFoundException("Space " + id + " not found");
-		}
 		return SpaceMapper.entityToModel(entity);
 	}
 	
 	public SpaceEntity findEntityById(Long id) {
-		SpaceEntity entity = repository.findById(id).orElseThrow();
-		if (Objects.isNull(entity)) {
-			throw new ResourceNotFoundException("Space " + id + " not found");
-		}
-		return entity;
+		return repository.findById(id).orElseThrow();
 	}
-	
-	
 
 	@Override
 	public SpaceModel add(SpaceEntity space) {
@@ -59,7 +51,6 @@ public class SpaceServiceImpl implements SpaceService {
 		} catch (Exception e) {
 			throw new ResourceNotFoundException("Something went wrong -> add space -> " + e.getMessage());
 		}
-
 	}
 
 	@Override

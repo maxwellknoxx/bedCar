@@ -15,6 +15,6 @@ public interface UserService {
 
 	UserModel update(UserEntity user);
 
-	void remove(Long id);
+	Boolean remove(Long id);
 
 }

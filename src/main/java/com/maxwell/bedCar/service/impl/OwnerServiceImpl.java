@@ -25,19 +25,11 @@ public class OwnerServiceImpl implements OwnerService {
 
 	@Override
 	public OwnerModel findById(Long id) {
-		OwnerModel ownerModel = OwnerMapper.entityToModel(repository.findById(id).orElseThrow());
-		if (ownerModel == null) {
-			throw new ResourceNotFoundException("Owner " + id + " does not exist");
-		}
-		return ownerModel;
+		return OwnerMapper.entityToModel(repository.findById(id).orElseThrow());
 	}
 
 	public OwnerEntity findEntityById(Long id) {
-		OwnerEntity entity = repository.findById(id).orElseThrow();
-		if (entity == null) {
-			throw new ResourceNotFoundException("Owner " + id + " does not exist");
-		}
-		return entity;
+		return repository.findById(id).orElseThrow();
 	}
 
 	@Override
@@ -59,12 +51,13 @@ public class OwnerServiceImpl implements OwnerService {
 	}
 
 	@Override
-	public void removeOwner(Long id) {
+	public Boolean removeOwner(Long id) {
 		OwnerModel ownerModel = OwnerMapper.entityToModel(repository.findById(id).orElseThrow());
 		if (ownerModel == null) {
-			throw new ResourceNotFoundException("Owner " + id + " does not exist");
+			return false;
 		}
 		repository.deleteById(id);
+		return true;
 	}
 
 }

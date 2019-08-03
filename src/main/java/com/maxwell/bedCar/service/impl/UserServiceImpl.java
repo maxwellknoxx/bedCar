@@ -25,19 +25,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserModel findById(Long id) {
-		UserModel userModel = UserMapper.entityToModel(repository.findById(id).orElseThrow());
-		if (userModel == null) {
-			throw new ResourceNotFoundException("User " + id + " not found!");
-		}
-		return userModel;
+		return UserMapper.entityToModel(repository.findById(id).orElseThrow());
 	}
 	
 	public UserEntity findEntityById(Long id) {
-		UserEntity entity = repository.findById(id).orElseThrow();
-		if (entity == null) {
-			throw new ResourceNotFoundException("User " + id + " not found!");
-		}
-		return entity;
+		return repository.findById(id).orElseThrow();
 	}
 
 	@Override
@@ -59,12 +51,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void remove(Long id) {
+	public Boolean remove(Long id) {
 		UserModel userModel = UserMapper.entityToModel(repository.findById(id).orElseThrow());
 		if (userModel == null) {
-			throw new ResourceNotFoundException("User " + id + " not found!");
+			return false;
 		}
 		repository.deleteById(id);
+		return true;
 	}
 
 }
