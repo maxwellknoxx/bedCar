@@ -1,7 +1,6 @@
 package com.maxwell.bedCar.controller;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.validation.Valid;
 
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.maxwell.bedCar.entity.SpaceEntity;
 import com.maxwell.bedCar.entity.VehicleEntity;
-import com.maxwell.bedCar.exception.ResourceNotFoundException;
 import com.maxwell.bedCar.model.VehicleModel;
 import com.maxwell.bedCar.service.impl.MapValidationErrorService;
 import com.maxwell.bedCar.service.impl.VehicleServiceImpl;
@@ -63,9 +61,7 @@ public class VehicleController {
 	@PutMapping(path = "/api/v1/vehicle/vehicles")
 	public ResponseEntity<?> update(@Valid @RequestBody VehicleEntity entity) {
 		VehicleModel model = service.updateVehicle(entity);
-		if (Objects.isNull(model)) {
-			throw new ResourceNotFoundException("Something went wrong -> update -> " + entity.getCarPlate());
-		}
+		
 		return new ResponseEntity<VehicleModel>(model, HttpStatus.CREATED);
 	}
 

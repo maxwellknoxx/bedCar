@@ -3,17 +3,18 @@ package com.maxwell.bedCar;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.maxwell.bedCar.util.Time;
 
 @SpringBootApplication
 public class BedCarApplication {
-	
+
 	final static int ONE_HOUR_SECONDS = 3600;
 	final static int ONE_MINUTE_SECONDS = 60;
 	final static Double PRICE_PER_HOUR = 2.00;
-	
+
 	public String calculateHours(String inHour, String outHour) {
 		String inHourSplit[] = inHour.split(":");
 		String outHourSplit[] = outHour.split(":");
@@ -62,28 +63,15 @@ public class BedCarApplication {
 		System.out.println("hours + minutes = " + hourPlusMinutes);
 		System.out.println("price 2/3600 = " + price);
 
-		String totalValue = "€" + Double.toString(hourPlusMinutes * price);
+		String totalValue = "€" + Double.toString(hourPlusMinutes * price).replace("-", "");
 
 		System.out.println("Total " + totalValue);
 		return totalValue;
 	}
 
 	public static void main(String[] args) {
-//		SpringApplication.run(BedCarApplication.class, args);
-		
-		BedCarApplication b = new BedCarApplication();
-		
-		String in = "10:10:20";
-		String ouy = "18:27:01";
-		
-		String totalHours =b.calculateHours(in, ouy);
-		
-		System.out.println("Tota hours -> " + totalHours);
-		
-		String value = b.calculateTotalPayment(totalHours);
-		
-		System.out.println("Value -> " + value.replace("-", ""));
-		
+		SpringApplication.run(BedCarApplication.class, args);
+
 	}
 
 }

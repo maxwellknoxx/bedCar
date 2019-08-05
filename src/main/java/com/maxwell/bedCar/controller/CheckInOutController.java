@@ -55,7 +55,7 @@ public class CheckInOutController {
 
 		entity.setCheckInHour(hourNow());
 
-		CheckInOutModel model = service.add(entity);
+		CheckInOutModel model = service.register(entity);
 
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 	}
@@ -75,11 +75,11 @@ public class CheckInOutController {
 			return errorMap;
 		}
 
-		entity.setCheckOutHour(hourNow());
+		//entity.setCheckOutHour(hourNow());
 		
 		String totalToPay = calculate(entity.getCheckInHour(), entity.getCheckOutHour());
 		
-		CheckInOutModel model = service.add(entity);
+		CheckInOutModel model = service.register(entity);
 		
 		model.setValue(totalToPay);
 
@@ -101,7 +101,7 @@ public class CheckInOutController {
 			return errorMap;
 		}
 
-		CheckInOutModel model = service.add(entity);
+		CheckInOutModel model = service.register(entity);
 
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 	}
@@ -138,7 +138,7 @@ public class CheckInOutController {
 		String totalHours = calculateHours(checkIn, checkOut);
 
 		String totalPayment = calculateTotalPayment(totalHours);
-		return totalPayment;
+		return totalPayment.replace("-", "");
 	}
 
 	/**

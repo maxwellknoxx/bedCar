@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -50,10 +51,10 @@ public class OwnerEntity {
 	@Column(name = "subscription_date", nullable = false)
 	private String subscriptionDate;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
 	private List<PaymentEntity> payments;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(name = "owner_has_vehicles", joinColumns = @JoinColumn(name = "owner_id"), inverseJoinColumns = @JoinColumn(name = "vehicle_id"))
 	private List<VehicleEntity> vehicles;
 

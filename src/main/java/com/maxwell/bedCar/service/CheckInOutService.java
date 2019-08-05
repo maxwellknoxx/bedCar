@@ -13,7 +13,7 @@ public interface CheckInOutService {
 
 	CheckInOutModel findByCarPlate(String carPlate);
 	
-	CheckInOutModel add(CheckInOutEntity entity);
+	CheckInOutModel register(CheckInOutEntity entity);
 	
 	CheckInOutModel update(CheckInOutEntity entity);
 	

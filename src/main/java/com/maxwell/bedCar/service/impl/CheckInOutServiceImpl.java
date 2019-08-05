@@ -34,7 +34,7 @@ public class CheckInOutServiceImpl implements CheckInOutService {
 	}
 
 	@Override
-	public CheckInOutModel add(CheckInOutEntity entity) {
+	public CheckInOutModel register(CheckInOutEntity entity) {
 		try {
 			return CheckInOutMapper.entityToModel(repository.save(entity));
 		} catch (Exception e) {
