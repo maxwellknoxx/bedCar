@@ -1,7 +1,5 @@
 package com.maxwell.bedCar.request;
 
-import java.util.Set;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -15,7 +13,7 @@ public class SignUpForm {
 	@Size(min = 3, max = 50)
 	private String username;
 
-	private Set<String> role;
+	private String role;
 
 	@NotBlank
 	@Size(min = 3, max = 40)
@@ -45,11 +43,11 @@ public class SignUpForm {
 		this.password = password;
 	}
 
-	public Set<String> getRole() {
-		return this.role;
+	public String getRole() {
+		return role;
 	}
 
-	public void setRole(Set<String> role) {
+	public void setRole(String role) {
 		this.role = role;
 	}
 

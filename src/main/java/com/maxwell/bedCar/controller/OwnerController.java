@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maxwell.bedCar.entity.OwnerEntity;
-import com.maxwell.bedCar.exception.ResourceNotFoundException;
 import com.maxwell.bedCar.model.OwnerModel;
 import com.maxwell.bedCar.service.impl.MapValidationErrorService;
 import com.maxwell.bedCar.service.impl.OwnerServiceImpl;
@@ -65,7 +64,7 @@ public class OwnerController {
 	public ResponseEntity<?> update(@Valid @RequestBody OwnerEntity entity) {
 		OwnerModel model = service.updateOwner(entity);
 		if (Objects.isNull(model)) {
-			throw new ResourceNotFoundException("Something went wrong -> update -> " + entity.getName());
+			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
 		}
 
 		return new ResponseEntity<OwnerModel>(model, HttpStatus.CREATED);

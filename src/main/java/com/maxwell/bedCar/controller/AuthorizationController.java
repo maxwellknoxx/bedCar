@@ -1,9 +1,6 @@
 package com.maxwell.bedCar.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.Level;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import javax.validation.Valid;
@@ -63,14 +60,14 @@ public class AuthorizationController {
 	 * @return
 	 */
 	@PostMapping("/login")
-	public ResponseEntity<Response<UserModel>> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
+	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginForm loginRequest) {
 
 		Response<UserModel> response = new Response<UserModel>();
 		UserModel user;
 
 		String jwt = "";
 
-		try {
+		//try {
 			Authentication authentication = authenticationManager.authenticate(
 					new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -79,14 +76,17 @@ public class AuthorizationController {
 			jwt = jwtProvider.generateJwtToken(authentication);
 
 			user = UserMapper.entityToModel(userRepository.findByUsername(loginRequest.getUsername()).orElse(null));
+			
+			if(Objects.isNull(user)) {
+				return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+			}
 
-		} catch (Exception e) {
-			LOGGER.log(Level.WARNING, "Something went wrong: { POST /signin } ");
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().body(response);
-		} finally {
-			LOGGER.log(Level.INFO, "Operation { POST /signin } completed");
-		}
+		/*
+		 * } catch (Exception e) { LOGGER.log(Level.WARNING,
+		 * "Something went wrong: { POST /signin } " + e.getMessage()); return new
+		 * ResponseEntity<String>("Please, verify your login", HttpStatus.BAD_REQUEST);
+		 * } finally { LOGGER.log(Level.INFO, "Operation { POST /signin } completed"); }
+		 */
 
 		response.setJwt(new JwtResponse(jwt));
 		response.setData(user);
@@ -109,25 +109,21 @@ public class AuthorizationController {
 		UserEntity user = new UserEntity(signUpRequest.getName(), signUpRequest.getUsername(),
 				encoder.encode(signUpRequest.getPassword()));
 
-		Set<String> strRoles = signUpRequest.getRole();
-		List<RoleEntity> roles = new ArrayList<>();
+		String strRoles = signUpRequest.getRole();
 
-		strRoles.forEach(role -> {
-			switch (role) {
+			switch (strRoles) {
 			case "admin":
 				RoleEntity adminRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
 						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-				roles.add(adminRole);
-
+				user.setRole(adminRole);
 				break;
 			default:
 				RoleEntity userRole = roleRepository.findByName(RoleName.ROLE_USER)
 						.orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-				roles.add(userRole);
+				user.setRole(userRole);
 			}
-		});
 
-		user.setRoles(roles);
+		
 		user = userRepository.save(user);
 
 		return ResponseEntity.ok().body("Sucess");
