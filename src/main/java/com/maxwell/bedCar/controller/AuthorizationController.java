@@ -1,7 +1,6 @@
 package com.maxwell.bedCar.controller;
 
 import java.util.Objects;
-import java.util.logging.Logger;
 
 import javax.validation.Valid;
 
@@ -36,8 +35,6 @@ import com.maxwell.bedCar.util.UserMapper;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthorizationController {
-
-	private final static Logger LOGGER = Logger.getLogger(AuthorizationController.class.getName());
 
 	@Autowired
 	AuthenticationManager authenticationManager;

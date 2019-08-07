@@ -1,5 +1,9 @@
 package com.maxwell.bedCar.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Time {
 
 	int seconds;
@@ -36,16 +40,6 @@ public class Time {
 		this.seconds = seconds;
 	}
 
-	public static void main(String[] args) {
-		Time start = new Time(12, 34, 55), stop = new Time(8, 12, 15), diff;
-
-		diff = difference(start, stop);
-
-		System.out.printf("TIME DIFFERENCE: %d:%d:%d - ", start.hours, start.minutes, start.seconds);
-		System.out.printf("%d:%d:%d ", stop.hours, stop.minutes, stop.seconds);
-		System.out.printf("= %d:%d:%d\n", diff.hours, diff.minutes, diff.seconds);
-	}
-
 	public static Time difference(Time start, Time stop) {
 		Time diff = new Time(0, 0, 0);
 
@@ -65,4 +59,11 @@ public class Time {
 
 		return (diff);
 	}
+
+	public static String getAtualDate() {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
+
 }

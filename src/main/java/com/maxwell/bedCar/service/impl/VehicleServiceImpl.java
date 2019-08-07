@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.maxwell.bedCar.entity.VehicleEntity;
-import com.maxwell.bedCar.exception.ResourceNotFoundException;
 import com.maxwell.bedCar.model.VehicleModel;
 import com.maxwell.bedCar.repository.VehicleRepository;
 import com.maxwell.bedCar.service.VehicleService;
@@ -20,7 +19,12 @@ public class VehicleServiceImpl implements VehicleService {
 
 	@Override
 	public List<VehicleModel> findAll() {
-		return VehicleMapper.entitiesToModels(repository.findAll());
+		return VehicleMapper.entitiesToModelList(repository.findAll());
+	}
+
+	@Override
+	public List<VehicleModel> findByPlate(String plate) {
+		return VehicleMapper.entitiesToModelList(repository.findByPlate(plate));
 	}
 
 	@Override
@@ -28,36 +32,24 @@ public class VehicleServiceImpl implements VehicleService {
 		return VehicleMapper.entityToModel(repository.findById(id).orElseThrow());
 	}
 
-	public VehicleEntity findEntityById(Long id) {
-		return repository.findById(id).orElseThrow();
+	@Override
+	public VehicleModel register(VehicleEntity entity) {
+		return VehicleMapper.entityToModel(repository.save(entity));
 	}
 
 	@Override
-	public VehicleModel addVehicle(VehicleEntity vehicle) {
+	public VehicleModel update(VehicleEntity entity) {
+		return VehicleMapper.entityToModel(repository.save(entity));
+	}
+
+	@Override
+	public Boolean delete(Long id) {
 		try {
-			return VehicleMapper.entityToModel(repository.save(vehicle));
+			repository.deleteById(id);
+			return true;
 		} catch (Exception e) {
-			throw new ResourceNotFoundException("Something went wrong -> create vehicle ->" + e.getMessage());
-		}
-	}
-
-	@Override
-	public VehicleModel updateVehicle(VehicleEntity vehicle) {
-		try {
-			return VehicleMapper.entityToModel(repository.save(vehicle));
-		} catch (Exception e) {
-			throw new ResourceNotFoundException("Something went wrong -> update vehicle ->" + e.getMessage());
-		}
-	}
-
-	@Override
-	public Boolean removeVehicle(Long id) {
-		VehicleModel vehicleModel = VehicleMapper.entityToModel(repository.findById(id).orElseThrow());
-		if (vehicleModel == null) {
 			return false;
 		}
-		repository.deleteById(id);
-		return true;
 	}
 
 }

@@ -9,10 +9,12 @@ import org.springframework.stereotype.Repository;
 import com.maxwell.bedCar.entity.VehicleEntity;
 
 @Repository
-public interface VehicleRepository extends JpaRepository<VehicleEntity, Long> {
+public interface VehicleRepository extends JpaRepository<VehicleEntity, Long>{
 
 	List<VehicleEntity> findAll();
-
+	
+	List<VehicleEntity> findByPlate(String plate);
+	
 	Optional<VehicleEntity> findById(Long id);
-
+	
 }

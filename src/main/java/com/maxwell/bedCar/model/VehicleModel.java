@@ -10,9 +10,15 @@ import lombok.ToString;
 @Setter
 @ToString
 public class VehicleModel {
-
-	private long id;
-	private String carPlate;
+	
+	private Long id;
+	private String plate;
+	private String ownerName;
+	private String ownerDocumentNumber;
+	private String ownerAddress;
+	private String plan;
+	private String subscriptionDate;
+	private String dueDate;
 	private SpaceModel space;
 
 }

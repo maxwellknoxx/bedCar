@@ -14,31 +14,45 @@ import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.NaturalId;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@ToString
 @Entity
-@Table(name = "vehicles", uniqueConstraints = { @UniqueConstraint(columnNames = { "car_plate" }) })
+@Table(name = "vehicles", uniqueConstraints = { @UniqueConstraint(columnNames = { "plate" }) })
 public class VehicleEntity {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-
+	
 	@NaturalId
-	@Column(name = "car_plate", nullable = false)
-	private String carPlate;
+	@Column(name = "plate", nullable = false)
+	private String plate;
+	
+	@Column(name = "owner_name", nullable = false)
+	private String ownerName;
+
+	@Column(name = "owner_document_number", nullable = false)
+	private String ownerDocumentNumber;
+
+	@Column(name = "owner_address", nullable = false)
+	private String ownerAddress;
+
+	@Column(name = "plan", nullable = false)
+	private String plan;
+
+	@Column(name = "subscription_date", nullable = false)
+	private String subscriptionDate;
+	
+	@Column(name = "due_date", nullable = false)
+	private String dueDate;
 	
 	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-	@JoinColumn(name = "space_id_fk")
+	@JoinColumn(name = "space_id_fk", nullable = true)
 	private SpaceEntity space;
 
 }

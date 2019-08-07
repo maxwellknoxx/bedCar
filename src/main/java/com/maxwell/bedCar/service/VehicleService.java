@@ -9,12 +9,14 @@ public interface VehicleService {
 
 	List<VehicleModel> findAll();
 
+	List<VehicleModel> findByPlate(String plate);
+
 	VehicleModel findById(Long id);
-
-	VehicleModel addVehicle(VehicleEntity vehicle);
-
-	VehicleModel updateVehicle(VehicleEntity vehicle);
-
-	Boolean removeVehicle(Long id);
+	
+	VehicleModel register(VehicleEntity entity);
+	
+	VehicleModel update(VehicleEntity entity);
+	
+	Boolean delete(Long id);
 
 }
