@@ -10,6 +10,8 @@ public interface SpaceService {
 	List<SpaceModel> findAll();
 
 	SpaceModel findById(Long id);
+	
+	List<SpaceModel> findByBusy(Boolean status);
 
 	SpaceModel add(SpaceEntity space);
 

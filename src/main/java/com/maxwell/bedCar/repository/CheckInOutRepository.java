@@ -13,6 +13,6 @@ public interface CheckInOutRepository extends JpaRepository<CheckInOutEntity, Lo
 
 	Optional<CheckInOutEntity> findById(Long id);
 
-	CheckInOutEntity findByCarPlate(String carPlate);
+	CheckInOutEntity findByPlate(String Plate);
 
 }

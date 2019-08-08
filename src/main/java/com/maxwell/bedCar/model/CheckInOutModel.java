@@ -15,7 +15,8 @@ public class CheckInOutModel {
 	private String checkInDate;
 	private String checkInHour;
 	private String checkOutHour;
-	private String carPlate;
+	private String totalHours;
+	private String plate;
 	private String value;
 	private Long spaceId;
 	

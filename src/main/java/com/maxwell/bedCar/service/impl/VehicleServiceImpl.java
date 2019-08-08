@@ -19,27 +19,47 @@ public class VehicleServiceImpl implements VehicleService {
 
 	@Override
 	public List<VehicleModel> findAll() {
-		return VehicleMapper.entitiesToModelList(repository.findAll());
+		List<VehicleEntity> entities = repository.findAll();
+		if (entities.isEmpty()) {
+			return null;
+		}
+		return VehicleMapper.entitiesToModelList(entities);
 	}
 
 	@Override
-	public List<VehicleModel> findByPlate(String plate) {
-		return VehicleMapper.entitiesToModelList(repository.findByPlate(plate));
+	public VehicleModel findByPlate(String plate) {
+		VehicleEntity entity = repository.findByPlate(plate);
+		if (entity == null) {
+			return null;
+		}
+		return VehicleMapper.entityToModel(entity);
 	}
 
 	@Override
 	public VehicleModel findById(Long id) {
-		return VehicleMapper.entityToModel(repository.findById(id).orElseThrow());
+		VehicleEntity entity = repository.findById(id).orElseThrow();
+		if (entity == null) {
+			return null;
+		}
+		return VehicleMapper.entityToModel(entity);
 	}
 
 	@Override
 	public VehicleModel register(VehicleEntity entity) {
-		return VehicleMapper.entityToModel(repository.save(entity));
+		VehicleEntity entityfromDB = repository.save(entity);
+		if (entityfromDB == null) {
+			return null;
+		}
+		return VehicleMapper.entityToModel(entityfromDB);
 	}
 
 	@Override
 	public VehicleModel update(VehicleEntity entity) {
-		return VehicleMapper.entityToModel(repository.save(entity));
+		VehicleEntity entityfromDB = repository.save(entity);
+		if (entityfromDB == null) {
+			return null;
+		}
+		return VehicleMapper.entityToModel(entityfromDB);
 	}
 
 	@Override

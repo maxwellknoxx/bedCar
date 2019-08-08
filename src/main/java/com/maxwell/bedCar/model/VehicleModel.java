@@ -19,6 +19,6 @@ public class VehicleModel {
 	private String plan;
 	private String subscriptionDate;
 	private String dueDate;
-	private SpaceModel space;
+	private Long spaceId;
 
 }

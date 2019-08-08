@@ -32,8 +32,8 @@ public class CheckInOutEntity {
 	@Column(name = "Check_out_hour", nullable = true)
 	private String checkOutHour;
 	
-	@Column(name = "car_plate", nullable = false)
-	private String carPlate;
+	@Column(name = "plate", nullable = false)
+	private String plate;
 	
 	@Column(name = "value", nullable = true)
 	private String value;

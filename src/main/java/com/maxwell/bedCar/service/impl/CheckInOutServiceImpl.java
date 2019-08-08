@@ -29,8 +29,8 @@ public class CheckInOutServiceImpl implements CheckInOutService {
 	}
 
 	@Override
-	public CheckInOutModel findByCarPlate(String carPlate) {
-		return CheckInOutMapper.entityToModel(repository.findByCarPlate(carPlate));
+	public CheckInOutModel findByPlate(String carPlate) {
+		return CheckInOutMapper.entityToModel(repository.findByPlate(carPlate));
 	}
 
 	@Override

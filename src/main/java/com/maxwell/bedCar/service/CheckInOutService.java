@@ -11,7 +11,7 @@ public interface CheckInOutService {
 
 	CheckInOutModel findById(Long id);
 
-	CheckInOutModel findByCarPlate(String carPlate);
+	CheckInOutModel findByPlate(String Plate);
 	
 	CheckInOutModel register(CheckInOutEntity entity);
 	

@@ -62,4 +62,9 @@ public class SpaceServiceImpl implements SpaceService {
 		}
 	}
 
+	@Override
+	public List<SpaceModel> findByBusy(Boolean status) {
+		return SpaceMapper.entityToModelList(repository.findByBusy(status));
+	}
+
 }

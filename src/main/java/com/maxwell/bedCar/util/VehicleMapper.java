@@ -16,8 +16,8 @@ public class VehicleMapper {
 		return VehicleModel.builder().id(entity.getId()).plate(entity.getPlate())
 				.ownerName(entity.getOwnerName()).ownerDocumentNumber(entity.getOwnerDocumentNumber())
 				.ownerAddress(entity.getOwnerAddress()).plan(entity.getPlan()).subscriptionDate(entity.getSubscriptionDate())
-				.dueDate(entity.getDueDate())
-				.space(SpaceMapper.entityToModel(entity.getSpace())).build();
+				.dueDate("Every day " + entity.getDueDate())
+				.spaceId(entity.getSpace().getId()).build();
 	}
 
 	public static List<VehicleModel> entitiesToModelList(List<VehicleEntity> entities) {
@@ -26,9 +26,23 @@ public class VehicleMapper {
 						.ownerName(entity.getOwnerName()).ownerDocumentNumber(entity.getOwnerDocumentNumber())
 						.ownerAddress(entity.getOwnerAddress()).plan(entity.getPlan())
 						.subscriptionDate(entity.getSubscriptionDate())
-						.dueDate(entity.getDueDate())
-						.space(SpaceMapper.entityToModel(entity.getSpace())).build())
+						.dueDate("Every day " + entity.getDueDate())
+						.spaceId(entity.getSpace().getId()).build())
 				.collect(Collectors.toList());
+	}
+	
+	public static Integer getPlanDays(String plan) {
+		if(plan.contains("BiWeekly")) {
+			return 15;
+		}
+		return 30;
+	}
+	
+	public static String getPlanString(Integer days) {
+		if(days == 15) {
+			return "BiWeekly - 80";
+		}
+		return "Monthly - 140";
 	}
 
 }

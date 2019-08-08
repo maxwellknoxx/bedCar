@@ -40,6 +40,13 @@ public class SpaceController {
 
 		return new ResponseEntity<List<SpaceModel>>(list, HttpStatus.OK);
 	}
+	
+	@GetMapping(path = "/api/v1/space/spacesBySatus/{status}")
+	public ResponseEntity<?> findByBusy(@Valid @PathVariable("status") Boolean status) {
+		List<SpaceModel> list = service.findByBusy(status);
+
+		return new ResponseEntity<List<SpaceModel>>(list, HttpStatus.OK);
+	}
 
 	@GetMapping(path = "/api/v1/space/spaces/{id}")
 	public ResponseEntity<?> get(@Valid @PathVariable("id") Long id) {

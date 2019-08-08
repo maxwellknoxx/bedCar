@@ -9,7 +9,7 @@ public interface VehicleService {
 
 	List<VehicleModel> findAll();
 
-	List<VehicleModel> findByPlate(String plate);
+	VehicleModel findByPlate(String plate);
 
 	VehicleModel findById(Long id);
 	

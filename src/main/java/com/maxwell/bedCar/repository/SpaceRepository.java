@@ -14,6 +14,10 @@ public interface SpaceRepository extends JpaRepository<SpaceEntity, Long> {
 	List<SpaceEntity> findAll();
 
 	Optional<SpaceEntity> findById(Long id);
+	
+	List<SpaceEntity> findByBusy(Boolean status);
+	
+	
 
 	
 }
