@@ -66,5 +66,16 @@ public class SpaceServiceImpl implements SpaceService {
 	public List<SpaceModel> findByBusy(Boolean status) {
 		return SpaceMapper.entityToModelList(repository.findByBusy(status));
 	}
+	
+	public void updateSpace(SpaceEntity entity) {
+		entity.setBusy(true);
+		repository.save(entity);
+	}
+	
+	public void updateSpaceById(Long id, Boolean status) {
+		SpaceEntity entity = repository.findById(id).orElseThrow();
+		entity.setBusy(status);
+		repository.save(entity);
+	}
 
 }

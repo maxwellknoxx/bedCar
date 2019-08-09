@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.maxwell.bedCar.entity.SpaceEntity;
 import com.maxwell.bedCar.entity.VehicleEntity;
 import com.maxwell.bedCar.model.VehicleModel;
 import com.maxwell.bedCar.service.impl.MapValidationErrorService;
@@ -60,7 +59,7 @@ public class VehicleController {
 			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
 		}
 
-		updateSpace(entity.getSpace());
+		spaceService.updateSpace(entity.getSpace());
 
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
@@ -82,7 +81,7 @@ public class VehicleController {
 			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
 		}
 
-		updateSpace(entity.getSpace());
+		spaceService.updateSpace(entity.getSpace());
 
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
@@ -120,11 +119,6 @@ public class VehicleController {
 		return new ResponseEntity<VehicleModel>(model, HttpStatus.OK);
 	}
 
-	public void updateSpace(SpaceEntity entity) {
-		entity.setBusy(true);
-		spaceService.update(entity);
-	}
-	
 	public VehicleEntity setDates(VehicleEntity entity) {
 		String subscriptionDate = Time.getCurrentDate();
 		Integer days = VehicleMapper.getPlanDays(entity.getPlan());

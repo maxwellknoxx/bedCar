@@ -19,5 +19,6 @@ public class CheckInOutModel {
 	private String plate;
 	private String value;
 	private Long spaceId;
+	private Boolean status;
 	
 }

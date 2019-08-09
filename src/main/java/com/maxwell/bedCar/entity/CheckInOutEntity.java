@@ -32,6 +32,9 @@ public class CheckInOutEntity {
 	@Column(name = "Check_out_hour", nullable = true)
 	private String checkOutHour;
 	
+	@Column(name = "total_hours", nullable = true)
+	private String totalHours;
+	
 	@Column(name = "plate", nullable = false)
 	private String plate;
 	
@@ -40,6 +43,9 @@ public class CheckInOutEntity {
 	
 	@Column(name = "space_id", nullable = false)
 	private Long spaceId;
+	
+	@Column(name = "status", nullable = false)
+	private Boolean status;
 
 
 }

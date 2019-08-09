@@ -110,7 +110,7 @@ public class Time {
 
 		String totalHours = diff.getHours() + ":" + diff.getMinutes() + ":" + diff.getSeconds();
 
-		return totalHours;
+		return totalHours.replace("-", "");
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class Time {
 	 * 
 	 * @return
 	 */
-	public static String hourNow() {
+	public static String getCurrentHour() {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
 		LocalDateTime now = LocalDateTime.now();
 		return dtf.format(now);

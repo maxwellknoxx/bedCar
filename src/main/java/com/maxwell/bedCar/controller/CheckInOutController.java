@@ -7,7 +7,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +20,7 @@ import com.maxwell.bedCar.entity.CheckInOutEntity;
 import com.maxwell.bedCar.model.CheckInOutModel;
 import com.maxwell.bedCar.service.impl.CheckInOutServiceImpl;
 import com.maxwell.bedCar.service.impl.MapValidationErrorService;
+import com.maxwell.bedCar.service.impl.SpaceServiceImpl;
 import com.maxwell.bedCar.util.Time;
 
 @RestController
@@ -29,6 +29,9 @@ public class CheckInOutController {
 
 	@Autowired
 	private CheckInOutServiceImpl service;
+	
+	@Autowired
+	private SpaceServiceImpl spaceService;
 
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
@@ -40,7 +43,7 @@ public class CheckInOutController {
 	 * @param result
 	 * @return
 	 */
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	//@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/checkInOut/checksIn")
 	public ResponseEntity<?> checkIn(@Valid @RequestBody CheckInOutEntity entity, BindingResult result) {
 
@@ -51,9 +54,13 @@ public class CheckInOutController {
 		
 		entity.setCheckInDate(Time.getCurrentDate());
 
-		entity.setCheckInHour(Time.hourNow());
+		entity.setCheckInHour(Time.getCurrentHour());
+		
+		entity.setStatus(false);
 
 		CheckInOutModel model = service.register(entity);
+		
+		spaceService.updateSpaceById(entity.getSpaceId(), true);
 
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 	}
@@ -72,16 +79,22 @@ public class CheckInOutController {
 		if (errorMap != null) {
 			return errorMap;
 		}
+		
+		entity.setCheckOutHour(Time.getCurrentHour());
+		
+		entity.setStatus(false);
 
 		String totalToPay = Time.calculate(entity.getCheckInHour(), entity.getCheckOutHour());
+		
+		String totalHours = Time.calculateHours(entity.getCheckInHour(), entity.getCheckOutHour());
+		
+		entity.setTotalHours(totalHours);
 		
 		CheckInOutModel model = service.register(entity);
 		
 		model.setValue(totalToPay);
 		
-		String totalHours = Time.calculateHours(entity.getCheckInHour(), entity.getCheckOutHour());
-		
-		model.setTotalHours(totalHours);
+		spaceService.updateSpaceById(entity.getSpaceId(), false);
 
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 	}
@@ -100,6 +113,8 @@ public class CheckInOutController {
 		if (errorMap != null) {
 			return errorMap;
 		}
+		
+		entity.setStatus(true);
 
 		CheckInOutModel model = service.register(entity);
 
@@ -127,7 +142,7 @@ public class CheckInOutController {
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.OK);
 	}
 
-	@GetMapping(path = "/api/v1/checkInOut/checksInOut/{plate}")
+	@GetMapping(path = "/api/v1/checkInOut/findByPlate/{plate}")
 	public ResponseEntity<?> findByPlate(@Valid @PathVariable("plate") String plate) {
 		CheckInOutModel model = service.findByPlate(plate);
 

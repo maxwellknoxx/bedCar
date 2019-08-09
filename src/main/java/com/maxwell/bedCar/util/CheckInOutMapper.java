@@ -15,6 +15,8 @@ public class CheckInOutMapper {
 	public static CheckInOutModel entityToModel(CheckInOutEntity entity) {
 		return CheckInOutModel.builder().id(entity.getId()).checkInHour(entity.getCheckInHour())
 				.checkOutHour(entity.getCheckOutHour()).plate(entity.getPlate()).checkInDate(entity.getCheckInDate())
+				.totalHours(entity.getTotalHours())
+				.status(entity.getStatus())
 				.value(entity.getValue()).spaceId(entity.getSpaceId()).build();
 	}
 
@@ -22,7 +24,9 @@ public class CheckInOutMapper {
 		return entities.stream().filter(Objects::nonNull)
 				.map(entity -> CheckInOutModel.builder().id(entity.getId()).checkInHour(entity.getCheckInHour())
 						.checkOutHour(entity.getCheckOutHour()).plate(entity.getPlate())
+						.totalHours(entity.getTotalHours())
 						.checkInDate(entity.getCheckInDate()).value(entity.getValue()).spaceId(entity.getSpaceId())
+						.status(entity.getStatus())
 						.build())
 				.collect(Collectors.toList());
 	}
