@@ -15,6 +15,7 @@ public class PaymentMapper {
 	public static PaymentModel entityToModel(PaymentEntity entity) {
 		return PaymentModel.builder().id(entity.getId())
 				.ownerName(entity.getVehicle().getOwnerName())
+				.vehicleId(entity.getVehicle().getId())
 				.plate(entity.getVehicle().getPlate())
 				.paymentDate(entity.getPaymentDate())
 				.paidValue(entity.getPaidValue())
@@ -26,6 +27,7 @@ public class PaymentMapper {
 		return entities.stream().filter(Objects::nonNull)
 				.map(entity -> PaymentModel.builder().id(entity.getId())
 						.ownerName(entity.getVehicle().getOwnerName())
+						.vehicleId(entity.getVehicle().getId())
 						.plate(entity.getVehicle().getPlate())
 						.paymentDate(entity.getPaymentDate())
 						.paidValue(entity.getPaidValue())

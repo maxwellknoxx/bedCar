@@ -16,5 +16,7 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Long>{
 	List<PaymentEntity> findByPaymentDate(String date);
 	
 	List<PaymentEntity> findByVehicle(VehicleEntity vehicle);
+	
+	List<PaymentEntity> findByVehiclePlate(String plate);
 
 }

@@ -53,5 +53,13 @@ public class PaymentServiceImpl implements PaymentService {
 		}
 		return PaymentMapper.entitiesToModelList(list);
 	}
+	
+	public List<PaymentModel> findByVehiclePlate(String plate) {
+		List<PaymentEntity> list = repository.findByVehiclePlate(plate);
+		if (list.isEmpty()) {
+			return null;
+		}
+		return PaymentMapper.entitiesToModelList(list);
+	}
 
 }

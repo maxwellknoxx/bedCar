@@ -54,5 +54,12 @@ public class VehicleEntity {
 	@OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinColumn(name = "space_id_fk", nullable = true)
 	private SpaceEntity space;
+	
+	public VehicleEntity(String plate) {
+		this.plate = plate;
+	}
+	
+	public VehicleEntity() {
+	}
 
 }

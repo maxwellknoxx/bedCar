@@ -20,6 +20,7 @@ import com.maxwell.bedCar.entity.VehicleEntity;
 import com.maxwell.bedCar.model.PaymentModel;
 import com.maxwell.bedCar.service.impl.MapValidationErrorService;
 import com.maxwell.bedCar.service.impl.PaymentServiceImpl;
+import com.maxwell.bedCar.util.Time;
 
 @RestController
 @CrossOrigin("*")
@@ -39,9 +40,15 @@ public class PaymentController {
 			return errorMap;
 		}
 
-		PaymentModel model = service.register(entity);
+		entity.setPaymentDate(Time.getCurrentDate());
 
-		return new ResponseEntity<PaymentModel>(model, HttpStatus.CREATED);
+		if (service.register(entity) == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+		}
+
+		List<PaymentModel> list = service.findByVehiclePlate(entity.getVehicle().getPlate());
+
+		return new ResponseEntity<List<PaymentModel>>(list, HttpStatus.CREATED);
 	}
 
 	@GetMapping(path = "/api/v1/payment/payments")
@@ -57,10 +64,10 @@ public class PaymentController {
 
 		return new ResponseEntity<PaymentModel>(model, HttpStatus.OK);
 	}
-	
-	@GetMapping(path = "/api/v1/payment/findByVehicle")
+
+	@PostMapping(path = "/api/v1/payment/findByVehicle")
 	public ResponseEntity<?> findByVehicle(@Valid @RequestBody VehicleEntity entity) {
-		List<PaymentModel> list = service.findByVehicle(entity);
+		List<PaymentModel> list = service.findByVehiclePlate(entity.getPlate());
 
 		return new ResponseEntity<List<PaymentModel>>(list, HttpStatus.OK);
 	}

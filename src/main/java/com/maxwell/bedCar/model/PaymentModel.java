@@ -13,6 +13,7 @@ public class PaymentModel {
 
 	private Long id;
 	private String ownerName;
+	private Long vehicleId;
 	private String plate;
 	private String paymentDate;
 	private String plan;

@@ -34,6 +34,14 @@ public class VehicleServiceImpl implements VehicleService {
 		}
 		return VehicleMapper.entityToModel(entity);
 	}
+	
+	public VehicleEntity getVehicleByPlate(String plate) {
+		VehicleEntity entity = repository.findByPlate(plate);
+		if (entity == null) {
+			return null;
+		}
+		return entity;
+	}
 
 	@Override
 	public VehicleModel findById(Long id) {
@@ -42,6 +50,14 @@ public class VehicleServiceImpl implements VehicleService {
 			return null;
 		}
 		return VehicleMapper.entityToModel(entity);
+	}
+	
+	public VehicleEntity getVehicleById(Long id) {
+		VehicleEntity entity = repository.findById(id).orElseThrow();
+		if (entity == null) {
+			return null;
+		}
+		return entity;
 	}
 
 	@Override
