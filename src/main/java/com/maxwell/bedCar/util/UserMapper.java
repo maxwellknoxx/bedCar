@@ -14,6 +14,7 @@ public class UserMapper {
 
 	public static UserModel entityToModel(UserEntity entity) {
 		return UserModel.builder().id(entity.getId()).username(entity.getUsername())
+				.name(entity.getName())
 				.role(entity.getRole().getName().toString()).build();
 
 	}
@@ -21,7 +22,9 @@ public class UserMapper {
 	public static List<UserModel> entitiesToModels(List<UserEntity> entities) {
 		return entities
 				.stream().filter(Objects::nonNull).map(entity -> UserModel.builder().id(entity.getId())
-						.username(entity.getUsername()).role(entity.getRole().getName().toString()).build())
+						.username(entity.getUsername())
+						.name(entity.getName())
+						.role(entity.getRole().getName().toString()).build())
 				.collect(Collectors.toList());
 	}
 

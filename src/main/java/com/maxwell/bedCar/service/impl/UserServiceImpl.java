@@ -25,7 +25,11 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserModel findById(Long id) {
-		return UserMapper.entityToModel(repository.findById(id).orElseThrow());
+		UserEntity entity = repository.findById(id).orElseThrow();
+		if(entity == null) {
+			return null;
+		}
+		return UserMapper.entityToModel(entity);
 	}
 	
 	public UserEntity findEntityById(Long id) {

@@ -12,6 +12,7 @@ import lombok.ToString;
 public class UserModel {
 
 	private long id;
+	private String name;
 	private String username;
 	private String role;
 

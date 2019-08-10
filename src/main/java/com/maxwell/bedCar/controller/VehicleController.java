@@ -22,7 +22,7 @@ import com.maxwell.bedCar.model.VehicleModel;
 import com.maxwell.bedCar.service.impl.MapValidationErrorService;
 import com.maxwell.bedCar.service.impl.SpaceServiceImpl;
 import com.maxwell.bedCar.service.impl.VehicleServiceImpl;
-import com.maxwell.bedCar.util.Time;
+import com.maxwell.bedCar.util.DateAndTime;
 import com.maxwell.bedCar.util.VehicleMapper;
 
 @RestController
@@ -120,11 +120,11 @@ public class VehicleController {
 	}
 
 	public VehicleEntity setDates(VehicleEntity entity) {
-		String subscriptionDate = Time.getCurrentDate();
+		String subscriptionDate = DateAndTime.getCurrentDate();
 		Integer days = VehicleMapper.getPlanDays(entity.getPlan());
 		
 		entity.setSubscriptionDate(subscriptionDate);
-		entity.setDueDate(Time.getDueDate(subscriptionDate, days));
+		entity.setDueDate(DateAndTime.getDueDate(subscriptionDate, days));
 		return entity;
 	}
 

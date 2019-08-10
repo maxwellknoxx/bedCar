@@ -21,7 +21,7 @@ import com.maxwell.bedCar.model.CheckInOutModel;
 import com.maxwell.bedCar.service.impl.CheckInOutServiceImpl;
 import com.maxwell.bedCar.service.impl.MapValidationErrorService;
 import com.maxwell.bedCar.service.impl.SpaceServiceImpl;
-import com.maxwell.bedCar.util.Time;
+import com.maxwell.bedCar.util.DateAndTime;
 
 @RestController
 @CrossOrigin("*")
@@ -52,9 +52,9 @@ public class CheckInOutController {
 			return errorMap;
 		}
 		
-		entity.setCheckInDate(Time.getCurrentDate());
+		entity.setCheckInDate(DateAndTime.getCurrentDate());
 
-		entity.setCheckInHour(Time.getCurrentHour());
+		entity.setCheckInHour(DateAndTime.getCurrentHour());
 		
 		entity.setStatus(false);
 
@@ -80,13 +80,13 @@ public class CheckInOutController {
 			return errorMap;
 		}
 		
-		entity.setCheckOutHour(Time.getCurrentHour());
+		entity.setCheckOutHour(DateAndTime.getCurrentHour());
 		
 		entity.setStatus(false);
 
-		String totalToPay = Time.calculate(entity.getCheckInHour(), entity.getCheckOutHour());
+		String totalToPay = DateAndTime.calculate(entity.getCheckInHour(), entity.getCheckOutHour());
 		
-		String totalHours = Time.calculateHours(entity.getCheckInHour(), entity.getCheckOutHour());
+		String totalHours = DateAndTime.calculateHours(entity.getCheckInHour(), entity.getCheckOutHour());
 		
 		entity.setTotalHours(totalHours);
 		

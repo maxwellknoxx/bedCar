@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,10 +63,10 @@ public class UserController {
 
 		UserModel model = service.create(entity);
 		if (model == null) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 
-		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		return new ResponseEntity<UserModel>(model, HttpStatus.OK);
 	}
 
 	/**
@@ -80,9 +82,37 @@ public class UserController {
 		entity.setPassword(passwordEncoded);
 		UserModel model = service.update(entity);
 		if (Objects.isNull(model)) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 		return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@GetMapping(path = "/api/v1/user/users/{id}")
+	public ResponseEntity<?> findById(@Valid @PathVariable("id") Long id) {
+		UserModel model = service.findById(id);
+		if (model == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+		return new ResponseEntity<UserModel>(model, HttpStatus.OK);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping(path = "/api/v1/user/users/{id}")
+	public ResponseEntity<?> deleteById(@Valid @PathVariable("id") Long id) {
+		if (service.remove(id)) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
 	}
 
 }
