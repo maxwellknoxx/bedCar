@@ -11,9 +11,9 @@ public interface UserService {
 
 	UserModel findById(Long id);
 
-	UserModel create(UserEntity user);
+	Boolean create(UserEntity user);
 
-	UserModel update(UserEntity user);
+	Boolean update(UserEntity user);
 
 	Boolean remove(Long id);
 

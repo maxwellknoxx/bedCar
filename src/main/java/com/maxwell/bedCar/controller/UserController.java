@@ -1,7 +1,6 @@
 package com.maxwell.bedCar.controller;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.validation.Valid;
 
@@ -61,12 +60,11 @@ public class UserController {
 
 		entity.setPassword(passwordEncoded);
 
-		UserModel model = service.create(entity);
-		if (model == null) {
+		if (!service.create(entity)) {
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 
-		return new ResponseEntity<UserModel>(model, HttpStatus.OK);
+		return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
 	}
 
 	/**
@@ -77,13 +75,21 @@ public class UserController {
 	 */
 	@PutMapping(path = "/api/v1/user/users")
 	public ResponseEntity<?> update(@Valid @RequestBody UserEntity entity) {
-		String passwordEncoded = encoder.encode(entity.getPassword());
+		UserEntity entityFromDB = new UserEntity();
+		String passwordEncoded = "";
 
-		entity.setPassword(passwordEncoded);
-		UserModel model = service.update(entity);
-		if (Objects.isNull(model)) {
+		if (entity.getPassword().equals("")) {
+			entityFromDB = service.findEntityById(entity.getId());
+			entity.setPassword(entityFromDB.getPassword());
+		} else {
+			passwordEncoded = encoder.encode(entity.getPassword());
+			entity.setPassword(passwordEncoded);
+		}
+
+		if (!service.create(entity)) {
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
+
 		return new ResponseEntity<Boolean>(true, HttpStatus.CREATED);
 	}
 
@@ -109,10 +115,9 @@ public class UserController {
 	@DeleteMapping(path = "/api/v1/user/users/{id}")
 	public ResponseEntity<?> deleteById(@Valid @PathVariable("id") Long id) {
 		if (service.remove(id)) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
-		} else {
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
 }

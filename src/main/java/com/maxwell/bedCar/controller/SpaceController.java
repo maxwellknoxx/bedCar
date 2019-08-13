@@ -1,7 +1,6 @@
 package com.maxwell.bedCar.controller;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.validation.Valid;
 
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.maxwell.bedCar.entity.SpaceEntity;
-import com.maxwell.bedCar.exception.ResourceNotFoundException;
 import com.maxwell.bedCar.model.SpaceModel;
 import com.maxwell.bedCar.service.impl.MapValidationErrorService;
 import com.maxwell.bedCar.service.impl.SpaceServiceImpl;
@@ -40,7 +38,7 @@ public class SpaceController {
 
 		return new ResponseEntity<List<SpaceModel>>(list, HttpStatus.OK);
 	}
-	
+
 	@GetMapping(path = "/api/v1/space/spacesBySatus/{status}")
 	public ResponseEntity<?> findByBusy(@Valid @PathVariable("status") Boolean status) {
 		List<SpaceModel> list = service.findByBusy(status);
@@ -51,6 +49,9 @@ public class SpaceController {
 	@GetMapping(path = "/api/v1/space/spaces/{id}")
 	public ResponseEntity<?> get(@Valid @PathVariable("id") Long id) {
 		SpaceModel model = service.findById(id);
+		if (model == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
 
 		return new ResponseEntity<SpaceModel>(model, HttpStatus.OK);
 	}
@@ -63,6 +64,9 @@ public class SpaceController {
 		}
 
 		SpaceModel model = service.add(entity);
+		if (model == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
 
 		return new ResponseEntity<SpaceModel>(model, HttpStatus.CREATED);
 	}
@@ -70,17 +74,18 @@ public class SpaceController {
 	@PutMapping(path = "/api/v1/space/spaces")
 	public ResponseEntity<?> update(@Valid @RequestBody SpaceEntity entity) {
 		SpaceModel model = service.update(entity);
-		if (Objects.isNull(model)) {
-			throw new ResourceNotFoundException("Something went wrong -> update -> " + entity.getId());
+		if (model == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 		return new ResponseEntity<SpaceModel>(model, HttpStatus.CREATED);
 	}
 
 	@DeleteMapping(path = "/api/v1/space/spaces/{id}")
 	public ResponseEntity<?> delete(@Valid @PathVariable("id") Long id) {
-		service.remove(id);
-
-		return new ResponseEntity<String>("Space " + id + " has been removed", HttpStatus.OK);
+		if (service.remove(id)) {
+			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+		}
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
 }

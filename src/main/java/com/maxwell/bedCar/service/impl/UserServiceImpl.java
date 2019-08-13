@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.maxwell.bedCar.entity.UserEntity;
-import com.maxwell.bedCar.exception.ResourceNotFoundException;
 import com.maxwell.bedCar.model.UserModel;
 import com.maxwell.bedCar.repository.UserRepository;
 import com.maxwell.bedCar.service.UserService;
@@ -20,48 +19,56 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<UserModel> findAll() {
-		return UserMapper.entitiesToModels(repository.findAll());
+		List<UserEntity> list = repository.findAll();
+		if (list.isEmpty()) {
+			return null;
+		}
+		return UserMapper.entitiesToModels(list);
 	}
 
 	@Override
 	public UserModel findById(Long id) {
 		UserEntity entity = repository.findById(id).orElseThrow();
-		if(entity == null) {
+		if (entity == null) {
 			return null;
 		}
 		return UserMapper.entityToModel(entity);
 	}
-	
+
 	public UserEntity findEntityById(Long id) {
+		UserEntity entity = repository.findById(id).orElseThrow();
+		if (entity == null) {
+			return null;
+		}
 		return repository.findById(id).orElseThrow();
 	}
 
 	@Override
-	public UserModel create(UserEntity user) {
-		try {
-			return UserMapper.entityToModel(repository.save(user));
-		} catch (Exception e) {
-			throw new ResourceNotFoundException("Something went wrong -> create user -> " + e.getMessage());
+	public Boolean create(UserEntity user) {
+		UserEntity entity = repository.save(user);
+		if (entity == null) {
+			return false;
 		}
+		return true;
 	}
 
 	@Override
-	public UserModel update(UserEntity user) {
-		try {
-			return UserMapper.entityToModel(repository.save(user));
-		} catch (Exception e) {
-			throw new ResourceNotFoundException("Something went wrong -> update user -> " + e.getMessage());
+	public Boolean update(UserEntity user) {
+		UserEntity entity = repository.save(user);
+		if (entity == null) {
+			return false;
 		}
+		return true;
 	}
 
 	@Override
 	public Boolean remove(Long id) {
-		UserModel userModel = UserMapper.entityToModel(repository.findById(id).orElseThrow());
-		if (userModel == null) {
+		try {
+			repository.deleteById(id);
+			return true;
+		} catch (Exception e) {
 			return false;
 		}
-		repository.deleteById(id);
-		return true;
 	}
 
 }

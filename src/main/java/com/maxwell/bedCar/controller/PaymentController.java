@@ -43,7 +43,7 @@ public class PaymentController {
 		entity.setPaymentDate(DateAndTime.getCurrentDate());
 
 		if (service.register(entity) == null) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 
 		List<PaymentModel> list = service.findByVehiclePlate(entity.getVehicle().getPlate());
@@ -61,6 +61,9 @@ public class PaymentController {
 	@GetMapping(path = "/api/v1/payment/payments/{id}")
 	public ResponseEntity<?> get(@Valid @PathVariable("id") Long id) {
 		PaymentModel model = service.findById(id);
+		if (model == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
 
 		return new ResponseEntity<PaymentModel>(model, HttpStatus.OK);
 	}

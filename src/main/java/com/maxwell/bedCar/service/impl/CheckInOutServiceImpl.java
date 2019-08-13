@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.maxwell.bedCar.entity.CheckInOutEntity;
-import com.maxwell.bedCar.exception.ResourceNotFoundException;
 import com.maxwell.bedCar.model.CheckInOutModel;
 import com.maxwell.bedCar.repository.CheckInOutRepository;
 import com.maxwell.bedCar.service.CheckInOutService;
@@ -20,35 +19,47 @@ public class CheckInOutServiceImpl implements CheckInOutService {
 
 	@Override
 	public List<CheckInOutModel> findAll() {
-		return CheckInOutMapper.entitiesToModelList(repository.findAll());
+		List<CheckInOutEntity> list = repository.findAll();
+		if (list.isEmpty()) {
+			return null;
+		}
+		return CheckInOutMapper.entitiesToModelList(list);
 	}
 
 	@Override
 	public CheckInOutModel findById(Long id) {
-		return CheckInOutMapper.entityToModel(repository.findById(id).orElseThrow());
+		CheckInOutEntity entity = repository.findById(id).orElseThrow();
+		if (entity == null) {
+			return null;
+		}
+		return CheckInOutMapper.entityToModel(entity);
 	}
 
 	@Override
 	public CheckInOutModel findByPlate(String carPlate) {
-		return CheckInOutMapper.entityToModel(repository.findByPlate(carPlate));
+		CheckInOutEntity entity = repository.findByPlate(carPlate);
+		if (entity == null) {
+			return null;
+		}
+		return CheckInOutMapper.entityToModel(entity);
 	}
 
 	@Override
 	public CheckInOutModel register(CheckInOutEntity entity) {
-		try {
-			return CheckInOutMapper.entityToModel(repository.save(entity));
-		} catch (Exception e) {
-			throw new ResourceNotFoundException("Something went wrong -> add -> " + e.getMessage());
+		CheckInOutEntity entityFromDB = repository.save(entity);
+		if (entityFromDB == null) {
+			return null;
 		}
+		return CheckInOutMapper.entityToModel(entityFromDB);
 	}
 
 	@Override
 	public CheckInOutModel update(CheckInOutEntity entity) {
-		try {
-			return CheckInOutMapper.entityToModel(repository.save(entity));
-		} catch (Exception e) {
-			throw new ResourceNotFoundException("Something went wrong -> update -> " + e.getMessage());
+		CheckInOutEntity entityFromDB = repository.save(entity);
+		if (entityFromDB == null) {
+			return null;
 		}
+		return CheckInOutMapper.entityToModel(entityFromDB);
 	}
 
 }

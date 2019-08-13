@@ -29,7 +29,7 @@ public class CheckInOutController {
 
 	@Autowired
 	private CheckInOutServiceImpl service;
-	
+
 	@Autowired
 	private SpaceServiceImpl spaceService;
 
@@ -43,7 +43,7 @@ public class CheckInOutController {
 	 * @param result
 	 * @return
 	 */
-	//@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	// @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/checkInOut/checksIn")
 	public ResponseEntity<?> checkIn(@Valid @RequestBody CheckInOutEntity entity, BindingResult result) {
 
@@ -51,15 +51,15 @@ public class CheckInOutController {
 		if (errorMap != null) {
 			return errorMap;
 		}
-		
+
 		entity.setCheckInDate(DateAndTime.getCurrentDate());
 
 		entity.setCheckInHour(DateAndTime.getCurrentHour());
-		
+
 		entity.setStatus(false);
 
 		CheckInOutModel model = service.register(entity);
-		
+
 		spaceService.updateSpaceById(entity.getSpaceId(), true);
 
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
@@ -79,21 +79,24 @@ public class CheckInOutController {
 		if (errorMap != null) {
 			return errorMap;
 		}
-		
+
 		entity.setCheckOutHour(DateAndTime.getCurrentHour());
-		
+
 		entity.setStatus(false);
 
 		String totalToPay = DateAndTime.calculate(entity.getCheckInHour(), entity.getCheckOutHour());
-		
+
 		String totalHours = DateAndTime.calculateHours(entity.getCheckInHour(), entity.getCheckOutHour());
-		
+
 		entity.setTotalHours(totalHours);
-		
+
 		CheckInOutModel model = service.register(entity);
-		
+		if (model == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+
 		model.setValue(totalToPay);
-		
+
 		spaceService.updateSpaceById(entity.getSpaceId(), false);
 
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
@@ -113,10 +116,13 @@ public class CheckInOutController {
 		if (errorMap != null) {
 			return errorMap;
 		}
-		
+
 		entity.setStatus(true);
 
 		CheckInOutModel model = service.register(entity);
+		if (model == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
 
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 	}
@@ -124,6 +130,9 @@ public class CheckInOutController {
 	@PutMapping(path = "/api/v1/checkInOut/checksInOut")
 	public ResponseEntity<?> update(@Valid @RequestBody CheckInOutEntity entity) {
 		CheckInOutModel model = service.update(entity);
+		if (model == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
 
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 	}
@@ -138,6 +147,9 @@ public class CheckInOutController {
 	@GetMapping(path = "/api/v1/checkInOut/checksInOut/{id}")
 	public ResponseEntity<?> findById(@Valid @PathVariable("id") Long id) {
 		CheckInOutModel model = service.findById(id);
+		if (model == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
 
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.OK);
 	}
@@ -145,6 +157,9 @@ public class CheckInOutController {
 	@GetMapping(path = "/api/v1/checkInOut/findByPlate/{plate}")
 	public ResponseEntity<?> findByPlate(@Valid @PathVariable("plate") String plate) {
 		CheckInOutModel model = service.findByPlate(plate);
+		if (model == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
 
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.OK);
 	}

@@ -56,7 +56,7 @@ public class VehicleController {
 
 		VehicleModel model = service.register(entity);
 		if (model == null) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 
 		spaceService.updateSpace(entity.getSpace());
@@ -78,7 +78,7 @@ public class VehicleController {
 
 		VehicleModel model = service.update(entity);
 		if (model == null) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 
 		spaceService.updateSpace(entity.getSpace());
@@ -96,7 +96,7 @@ public class VehicleController {
 		if(service.delete(id)) {
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
-		return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 	
 	@GetMapping(path = "/api/v1/vehicle/vehicles")
