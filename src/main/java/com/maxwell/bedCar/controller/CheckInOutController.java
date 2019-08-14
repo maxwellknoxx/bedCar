@@ -117,14 +117,18 @@ public class CheckInOutController {
 			return errorMap;
 		}
 
-		entity.setStatus(true);
+		if (!entity.getValue().isBlank()) {
+			entity.setStatus(true);
 
-		CheckInOutModel model = service.register(entity);
-		if (model == null) {
-			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+			CheckInOutModel model = service.register(entity);
+			if (model == null) {
+				return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+			}
+
+			return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 		}
 
-		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
+		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
 	@PutMapping(path = "/api/v1/checkInOut/checksInOut")
@@ -156,7 +160,7 @@ public class CheckInOutController {
 
 	@GetMapping(path = "/api/v1/checkInOut/findByPlate/{plate}")
 	public ResponseEntity<?> findByPlate(@Valid @PathVariable("plate") String plate) {
-		CheckInOutModel model = service.findByPlate(plate);
+		CheckInOutModel model = service.findByPlateAndStatus(plate, false);
 		if (model == null) {
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}

@@ -36,8 +36,16 @@ public class CheckInOutServiceImpl implements CheckInOutService {
 	}
 
 	@Override
-	public CheckInOutModel findByPlate(String carPlate) {
-		CheckInOutEntity entity = repository.findByPlate(carPlate);
+	public CheckInOutModel findByPlate(String plate) {
+		CheckInOutEntity entity = repository.findByPlate(plate);
+		if (entity == null) {
+			return null;
+		}
+		return CheckInOutMapper.entityToModel(entity);
+	}
+	
+	public CheckInOutModel findByPlateAndStatus(String plate, Boolean status) {
+		CheckInOutEntity entity = repository.findByPlateAndStatus(plate, status);
 		if (entity == null) {
 			return null;
 		}
