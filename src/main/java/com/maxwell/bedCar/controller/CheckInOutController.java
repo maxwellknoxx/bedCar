@@ -167,5 +167,12 @@ public class CheckInOutController {
 
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.OK);
 	}
+	
+	@GetMapping(path = "/api/v1/checkInOut/totalCheckInOut")
+	public ResponseEntity<?> count() {
+		long total = service.count();
+
+		return new ResponseEntity<Long>(total, HttpStatus.OK);
+	}
 
 }

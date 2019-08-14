@@ -70,4 +70,9 @@ public class CheckInOutServiceImpl implements CheckInOutService {
 		return CheckInOutMapper.entityToModel(entityFromDB);
 	}
 
+	@Override
+	public long count() {
+		return repository.count();
+	}
+
 }

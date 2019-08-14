@@ -40,9 +40,9 @@ public class VehicleMapper {
 	
 	public static String getPlanString(Integer days) {
 		if(days == 15) {
-			return "BiWeekly - 80";
+			return "BiWeekly";
 		}
-		return "Monthly - 140";
+		return "Monthly";
 	}
 
 }

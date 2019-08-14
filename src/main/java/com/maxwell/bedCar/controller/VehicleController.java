@@ -118,6 +118,24 @@ public class VehicleController {
 		
 		return new ResponseEntity<VehicleModel>(model, HttpStatus.OK);
 	}
+	
+	@GetMapping(path = "/api/v1/vehicle/VehiclesByPlan/{plan}") 
+	public ResponseEntity<?> findByPlan(@Valid @PathVariable("plan") String plan){
+		List<VehicleModel> list = service.findByPlan(plan);
+		if(list == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+		return new ResponseEntity<List<VehicleModel>>(list, HttpStatus.OK);
+	}
+	
+	@GetMapping(path = "/api/v1/vehicle/TotalVehiclesByPlan/{plan}") 
+	public ResponseEntity<?> countByPlan(@Valid @PathVariable("plan") String plan){
+		Long total = service.countByPlan(plan);
+		
+		System.out.println(total);
+		
+		return new ResponseEntity<Long>(total, HttpStatus.OK);
+	}
 
 	public VehicleEntity setDates(VehicleEntity entity) {
 		String subscriptionDate = DateAndTime.getCurrentDate();

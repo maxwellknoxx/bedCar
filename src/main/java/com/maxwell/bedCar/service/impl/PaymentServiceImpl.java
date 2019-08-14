@@ -62,4 +62,9 @@ public class PaymentServiceImpl implements PaymentService {
 		return PaymentMapper.entitiesToModelList(list);
 	}
 
+	@Override
+	public Long countByPaidValue(String paidValue) {
+		return repository.countByPaidValue(paidValue);
+	}
+
 }

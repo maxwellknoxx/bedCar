@@ -88,4 +88,18 @@ public class VehicleServiceImpl implements VehicleService {
 		}
 	}
 
+	@Override
+	public List<VehicleModel> findByPlan(String plan) {
+		List<VehicleEntity> list = repository.findByPlan(plan);
+		if(list.isEmpty()) {
+			return null;
+		}
+		return VehicleMapper.entitiesToModelList(list);
+	}
+
+	@Override
+	public Long countByPlan(String plan) {
+		return repository.countByPlan(plan);
+	}
+
 }

@@ -13,8 +13,14 @@ public interface VehicleRepository extends JpaRepository<VehicleEntity, Long>{
 
 	List<VehicleEntity> findAll();
 	
+	List<VehicleEntity> findByPlan(String plan);
+	
+	Long countByPlan(String plan);
+	
 	VehicleEntity findByPlate(String plate);
 	
 	Optional<VehicleEntity> findById(Long id);
+	
+	
 	
 }

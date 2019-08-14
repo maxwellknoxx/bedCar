@@ -67,6 +67,13 @@ public class PaymentController {
 
 		return new ResponseEntity<PaymentModel>(model, HttpStatus.OK);
 	}
+	
+	@GetMapping(path = "/api/v1/payment/totalPayments/{plan}")
+	public ResponseEntity<?> countByPaidValue(@Valid @PathVariable("plan") String plan) {
+		Long total = service.countByPaidValue(plan) * Integer.parseInt(plan) ;
+		
+		return new ResponseEntity<Long>(total, HttpStatus.OK);
+	}
 
 	@PostMapping(path = "/api/v1/payment/findPaymentByVehiclePlate")
 	public ResponseEntity<?> findPaymentByVehiclePlate(@Valid @RequestBody VehicleEntity entity) {

@@ -8,6 +8,10 @@ import com.maxwell.bedCar.model.VehicleModel;
 public interface VehicleService {
 
 	List<VehicleModel> findAll();
+	
+	List<VehicleModel> findByPlan(String plan);
+	
+	Long countByPlan(String plan);
 
 	VehicleModel findByPlate(String plate);
 

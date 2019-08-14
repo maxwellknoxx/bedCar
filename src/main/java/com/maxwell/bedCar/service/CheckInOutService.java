@@ -8,6 +8,8 @@ import com.maxwell.bedCar.model.CheckInOutModel;
 public interface CheckInOutService {
 	
 	List<CheckInOutModel> findAll();
+	
+	long count();
 
 	CheckInOutModel findById(Long id);
 

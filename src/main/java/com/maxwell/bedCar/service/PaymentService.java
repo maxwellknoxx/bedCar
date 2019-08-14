@@ -15,5 +15,7 @@ public interface PaymentService {
 	PaymentModel register(PaymentEntity entity);
 	
 	List<PaymentModel> findByVehicle(VehicleEntity vehicle);
+	
+	Long countByPaidValue(String paidValue);
 
 }
