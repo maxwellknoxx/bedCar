@@ -132,8 +132,6 @@ public class VehicleController {
 	public ResponseEntity<?> countByPlan(@Valid @PathVariable("plan") String plan){
 		Long total = service.countByPlan(plan);
 		
-		System.out.println(total);
-		
 		return new ResponseEntity<Long>(total, HttpStatus.OK);
 	}
 

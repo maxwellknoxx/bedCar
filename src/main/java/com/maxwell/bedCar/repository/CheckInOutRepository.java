@@ -10,7 +10,7 @@ import com.maxwell.bedCar.entity.CheckInOutEntity;
 public interface CheckInOutRepository extends JpaRepository<CheckInOutEntity, Long> {
 
 	List<CheckInOutEntity> findAll();
-
+	
 	Optional<CheckInOutEntity> findById(Long id);
 	
 	long count();

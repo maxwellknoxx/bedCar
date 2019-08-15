@@ -167,12 +167,32 @@ public class CheckInOutController {
 
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.OK);
 	}
-	
+
 	@GetMapping(path = "/api/v1/checkInOut/totalCheckInOut")
 	public ResponseEntity<?> count() {
 		long total = service.count();
 
 		return new ResponseEntity<Long>(total, HttpStatus.OK);
+	}
+
+	@GetMapping(path = "/api/v1/checkInOut/paidValues")
+	public ResponseEntity<?> getPaidValues() {
+		List<CheckInOutModel> list = service.findAll();
+		if (list == null) {
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+
+		String total = countPaidValue(list);
+
+		return new ResponseEntity<String>(total, HttpStatus.OK);
+	}
+
+	public String countPaidValue(List<CheckInOutModel> list) {
+		Double total = (double) 0;
+		for (CheckInOutModel entity : list) {
+			total = total + Double.parseDouble(entity.getValue().replace("€", ""));
+		}
+		return String.format("%.2f", total);
 	}
 
 }

@@ -46,6 +46,5 @@ public class CheckInOutEntity {
 	
 	@Column(name = "status", nullable = false)
 	private Boolean status;
-
-
+	
 }
