@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,9 +40,12 @@ public class SpaceController {
 		return new ResponseEntity<List<SpaceModel>>(list, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/space/spacesBySatus/{status}")
 	public ResponseEntity<?> findByBusy(@Valid @PathVariable("status") Boolean status) {
 		List<SpaceModel> list = service.findByBusy(status);
+		
+		System.out.println("/api/v1/space/spacesBySatus/ ->" + status);
 
 		return new ResponseEntity<List<SpaceModel>>(list, HttpStatus.OK);
 	}

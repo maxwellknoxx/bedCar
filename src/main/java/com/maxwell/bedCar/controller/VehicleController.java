@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -63,7 +64,7 @@ public class VehicleController {
 
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 
 	 * @param entity
@@ -85,7 +86,7 @@ public class VehicleController {
 
 		return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -93,52 +94,57 @@ public class VehicleController {
 	 */
 	@DeleteMapping(path = "/api/v1/vehicle/vehicles/{id}")
 	public ResponseEntity<?> deleteById(@Valid @PathVariable("id") Long id) {
-		if(service.delete(id)) {
+		VehicleEntity vehicle = service.getVehicleById(id);
+		vehicle.getSpace().setBusy(false);
+		if (service.delete(id)) {
+			spaceService.updateSpace(vehicle.getSpace());
 			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 		}
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
-	
+
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/vehicle/vehicles")
-	public ResponseEntity<?> findAll(){
+	public ResponseEntity<?> findAll() {
 		List<VehicleModel> list = service.findAll();
 		if (list == null) {
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
-		
+
 		return new ResponseEntity<List<VehicleModel>>(list, HttpStatus.OK);
 	}
-	
+
 	@GetMapping(path = "/api/v1/vehicle/vehiclesByPlate/{plate}")
-	public ResponseEntity<?> findByPlate(@Valid @PathVariable("plate") String plate){
+	public ResponseEntity<?> findByPlate(@Valid @PathVariable("plate") String plate) {
 		VehicleModel model = service.findByPlate(plate);
 		if (model == null) {
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
-		
+
 		return new ResponseEntity<VehicleModel>(model, HttpStatus.OK);
 	}
-	
-	@GetMapping(path = "/api/v1/vehicle/VehiclesByPlan/{plan}") 
-	public ResponseEntity<?> findByPlan(@Valid @PathVariable("plan") String plan){
+
+	@GetMapping(path = "/api/v1/vehicle/VehiclesByPlan/{plan}")
+	public ResponseEntity<?> findByPlan(@Valid @PathVariable("plan") String plan) {
 		List<VehicleModel> list = service.findByPlan(plan);
-		if(list == null) {
+		if (list == null) {
 			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<VehicleModel>>(list, HttpStatus.OK);
 	}
-	
-	@GetMapping(path = "/api/v1/vehicle/TotalVehiclesByPlan/{plan}") 
-	public ResponseEntity<?> countByPlan(@Valid @PathVariable("plan") String plan){
+
+	@PreAuthorize("hasRole('ADMIN')")
+	@GetMapping(path = "/api/v1/vehicle/TotalVehiclesByPlan/{plan}")
+	public ResponseEntity<?> countByPlan(@Valid @PathVariable("plan") String plan) {
 		Long total = service.countByPlan(plan);
-		
+
 		return new ResponseEntity<Long>(total, HttpStatus.OK);
 	}
 
 	public VehicleEntity setDates(VehicleEntity entity) {
 		String subscriptionDate = DateAndTime.getCurrentDate();
 		Integer days = VehicleMapper.getPlanDays(entity.getPlan());
-		
+
 		entity.setSubscriptionDate(subscriptionDate);
 		entity.setDueDate(DateAndTime.getDueDate(subscriptionDate, days));
 		return entity;

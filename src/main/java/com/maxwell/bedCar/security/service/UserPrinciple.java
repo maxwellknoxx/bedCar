@@ -1,7 +1,9 @@
 package com.maxwell.bedCar.security.service;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -28,6 +30,16 @@ public class UserPrinciple implements UserDetails {
 	private Collection<? extends GrantedAuthority> authorities;
 	
 	private GrantedAuthority authority;
+	
+	public UserPrinciple(Long id, String name, String username, String email, String password,
+			Collection<? extends GrantedAuthority> authorities) {
+		this.id = id;
+		this.name = name;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.authorities = authorities;
+	}
 
 	public UserPrinciple(Long id, String name, String username, String email, String password,
 			GrantedAuthority authority) {
@@ -38,13 +50,14 @@ public class UserPrinciple implements UserDetails {
 		this.password = password;
 		this.authority = authority;
 	}
-
 	public static UserPrinciple build(UserEntity user) {
-		GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole().getName().toString());
+		List<GrantedAuthority> authorities = user.getRoles().stream()
+				.map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
 
 		return new UserPrinciple(user.getId(), "", user.getUsername(), "", user.getPassword(),
-				authority);
+				authorities);
 	}
+
 
 	public Long getId() {
 		return id;

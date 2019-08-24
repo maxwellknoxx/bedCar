@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +44,7 @@ public class CheckInOutController {
 	 * @param result
 	 * @return
 	 */
-	// @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/checkInOut/checksIn")
 	public ResponseEntity<?> checkIn(@Valid @RequestBody CheckInOutEntity entity, BindingResult result) {
 
@@ -65,13 +66,7 @@ public class CheckInOutController {
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 	}
 
-	/**
-	 * Check in the single car
-	 * 
-	 * @param entity
-	 * @param result
-	 * @return
-	 */
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/checkInOut/checksOut")
 	public ResponseEntity<?> checkOut(@Valid @RequestBody CheckInOutEntity entity, BindingResult result) {
 
@@ -102,13 +97,7 @@ public class CheckInOutController {
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 	}
 
-	/**
-	 * Check in the single car
-	 * 
-	 * @param entity
-	 * @param result
-	 * @return
-	 */
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/checkInOut/payments")
 	public ResponseEntity<?> registerPayment(@Valid @RequestBody CheckInOutEntity entity, BindingResult result) {
 
@@ -131,6 +120,7 @@ public class CheckInOutController {
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@PutMapping(path = "/api/v1/checkInOut/checksInOut")
 	public ResponseEntity<?> update(@Valid @RequestBody CheckInOutEntity entity) {
 		CheckInOutModel model = service.update(entity);
@@ -141,6 +131,7 @@ public class CheckInOutController {
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/checkInOut/checksInOut")
 	public ResponseEntity<?> findAll() {
 		List<CheckInOutModel> list = service.findAll();
@@ -148,6 +139,7 @@ public class CheckInOutController {
 		return new ResponseEntity<List<CheckInOutModel>>(list, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/checkInOut/checksInOut/{id}")
 	public ResponseEntity<?> findById(@Valid @PathVariable("id") Long id) {
 		CheckInOutModel model = service.findById(id);
@@ -158,6 +150,7 @@ public class CheckInOutController {
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/checkInOut/findByPlate/{plate}")
 	public ResponseEntity<?> findByPlate(@Valid @PathVariable("plate") String plate) {
 		CheckInOutModel model = service.findByPlateAndStatus(plate, false);
@@ -168,6 +161,7 @@ public class CheckInOutController {
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/checkInOut/totalCheckInOut")
 	public ResponseEntity<?> count() {
 		long total = service.count();
@@ -175,6 +169,7 @@ public class CheckInOutController {
 		return new ResponseEntity<Long>(total, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/checkInOut/paidValues")
 	public ResponseEntity<?> getPaidValues() {
 		List<CheckInOutModel> list = service.findAll();

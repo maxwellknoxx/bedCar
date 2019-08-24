@@ -1,5 +1,9 @@
 package com.maxwell.bedCar.model;
 
+import java.util.Set;
+
+import com.maxwell.bedCar.entity.RoleEntity;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +18,6 @@ public class UserModel {
 	private long id;
 	private String name;
 	private String username;
-	private String role;
+	private Set<RoleEntity> roles;
 
 }

@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,6 +37,7 @@ public class UserController {
 	@Autowired
 	PasswordEncoder encoder;
 
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/user/users")
 	public ResponseEntity<?> findAll() {
 		List<UserModel> list = service.findAll();
@@ -49,6 +51,7 @@ public class UserController {
 	 * @param result
 	 * @return
 	 */
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/user/users")
 	public ResponseEntity<?> create(@Valid @RequestBody UserEntity entity, BindingResult result) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.mapValidation(result);
@@ -73,6 +76,7 @@ public class UserController {
 	 * @param result
 	 * @return
 	 */
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@PutMapping(path = "/api/v1/user/users")
 	public ResponseEntity<?> update(@Valid @RequestBody UserEntity entity) {
 		UserEntity entityFromDB = new UserEntity();
@@ -98,6 +102,7 @@ public class UserController {
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/user/users/{id}")
 	public ResponseEntity<?> findById(@Valid @PathVariable("id") Long id) {
 		UserModel model = service.findById(id);
@@ -112,6 +117,7 @@ public class UserController {
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@DeleteMapping(path = "/api/v1/user/users/{id}")
 	public ResponseEntity<?> deleteById(@Valid @PathVariable("id") Long id) {
 		if (service.remove(id)) {
