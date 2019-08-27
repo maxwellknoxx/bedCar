@@ -106,7 +106,7 @@ public class CheckInOutController {
 			return errorMap;
 		}
 
-		if (!entity.getValue().isBlank()) {
+		if (entity.getValue() != "") {
 			entity.setStatus(true);
 
 			CheckInOutModel model = service.register(entity);

@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 		if (entity == null) {
 			return null;
 		}
-		return repository.findById(id).orElseThrow();
+		return repository.findById(id).orElse(null);
 	}
 
 	@Override
