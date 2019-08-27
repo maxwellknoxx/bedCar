@@ -33,6 +33,7 @@ public class SpaceController {
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/space/spaces")
 	public ResponseEntity<?> findAll() {
 		List<SpaceModel> list = service.findAll();
@@ -40,7 +41,6 @@ public class SpaceController {
 		return new ResponseEntity<List<SpaceModel>>(list, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/space/spacesBySatus/{status}")
 	public ResponseEntity<?> findByBusy(@Valid @PathVariable("status") Boolean status) {
 		List<SpaceModel> list = service.findByBusy(status);
@@ -50,6 +50,7 @@ public class SpaceController {
 		return new ResponseEntity<List<SpaceModel>>(list, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/space/spaces/{id}")
 	public ResponseEntity<?> get(@Valid @PathVariable("id") Long id) {
 		SpaceModel model = service.findById(id);
@@ -60,6 +61,7 @@ public class SpaceController {
 		return new ResponseEntity<SpaceModel>(model, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/space/spaces")
 	public ResponseEntity<?> add(@Valid @RequestBody SpaceEntity entity, BindingResult result) {
 		ResponseEntity<?> errorMap = mapValidationErrorService.mapValidation(result);
@@ -75,6 +77,7 @@ public class SpaceController {
 		return new ResponseEntity<SpaceModel>(model, HttpStatus.CREATED);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping(path = "/api/v1/space/spaces")
 	public ResponseEntity<?> update(@Valid @RequestBody SpaceEntity entity) {
 		SpaceModel model = service.update(entity);
@@ -84,6 +87,7 @@ public class SpaceController {
 		return new ResponseEntity<SpaceModel>(model, HttpStatus.CREATED);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping(path = "/api/v1/space/spaces/{id}")
 	public ResponseEntity<?> delete(@Valid @PathVariable("id") Long id) {
 		if (service.remove(id)) {

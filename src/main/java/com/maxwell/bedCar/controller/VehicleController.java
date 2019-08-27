@@ -45,6 +45,7 @@ public class VehicleController {
 	 * @param result
 	 * @return
 	 */
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/vehicle/vehicles")
 	public ResponseEntity<?> register(@Valid @RequestBody VehicleEntity entity, BindingResult result) {
 
@@ -71,6 +72,7 @@ public class VehicleController {
 	 * @param result
 	 * @return
 	 */
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping(path = "/api/v1/vehicle/vehicles")
 	public ResponseEntity<?> update(@Valid @RequestBody VehicleEntity entity) {
 
@@ -92,6 +94,7 @@ public class VehicleController {
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping(path = "/api/v1/vehicle/vehicles/{id}")
 	public ResponseEntity<?> deleteById(@Valid @PathVariable("id") Long id) {
 		VehicleEntity vehicle = service.getVehicleById(id);
@@ -114,6 +117,7 @@ public class VehicleController {
 		return new ResponseEntity<List<VehicleModel>>(list, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/vehicle/vehiclesByPlate/{plate}")
 	public ResponseEntity<?> findByPlate(@Valid @PathVariable("plate") String plate) {
 		VehicleModel model = service.findByPlate(plate);
@@ -124,6 +128,7 @@ public class VehicleController {
 		return new ResponseEntity<VehicleModel>(model, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/vehicle/VehiclesByPlan/{plan}")
 	public ResponseEntity<?> findByPlan(@Valid @PathVariable("plan") String plan) {
 		List<VehicleModel> list = service.findByPlan(plan);

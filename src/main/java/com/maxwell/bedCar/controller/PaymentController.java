@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,6 +33,7 @@ public class PaymentController {
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/payment/payments")
 	public ResponseEntity<?> register(@Valid @RequestBody PaymentEntity entity, BindingResult result) {
 
@@ -51,6 +53,7 @@ public class PaymentController {
 		return new ResponseEntity<List<PaymentModel>>(list, HttpStatus.CREATED);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/payment/payments")
 	public ResponseEntity<?> findAll() {
 		List<PaymentModel> list = service.findAll();
@@ -58,6 +61,7 @@ public class PaymentController {
 		return new ResponseEntity<List<PaymentModel>>(list, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/payment/payments/{id}")
 	public ResponseEntity<?> get(@Valid @PathVariable("id") Long id) {
 		PaymentModel model = service.findById(id);
@@ -68,6 +72,7 @@ public class PaymentController {
 		return new ResponseEntity<PaymentModel>(model, HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/payment/totalPayments/{plan}")
 	public ResponseEntity<?> countByPaidValue(@Valid @PathVariable("plan") String plan) {
 		Long total = service.countByPaidValue(plan) * Integer.parseInt(plan) ;
@@ -75,6 +80,7 @@ public class PaymentController {
 		return new ResponseEntity<Long>(total, HttpStatus.OK);
 	}
 
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/payment/findPaymentByVehiclePlate")
 	public ResponseEntity<?> findPaymentByVehiclePlate(@Valid @RequestBody VehicleEntity entity) {
 		List<PaymentModel> list = service.findByVehiclePlate(entity.getPlate());

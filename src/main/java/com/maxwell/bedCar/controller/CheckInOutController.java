@@ -44,7 +44,7 @@ public class CheckInOutController {
 	 * @param result
 	 * @return
 	 */
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/checkInOut/checksIn")
 	public ResponseEntity<?> checkIn(@Valid @RequestBody CheckInOutEntity entity, BindingResult result) {
 
@@ -66,7 +66,7 @@ public class CheckInOutController {
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/checkInOut/checksOut")
 	public ResponseEntity<?> checkOut(@Valid @RequestBody CheckInOutEntity entity, BindingResult result) {
 
@@ -97,7 +97,7 @@ public class CheckInOutController {
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping(path = "/api/v1/checkInOut/payments")
 	public ResponseEntity<?> registerPayment(@Valid @RequestBody CheckInOutEntity entity, BindingResult result) {
 
@@ -120,7 +120,7 @@ public class CheckInOutController {
 		return new ResponseEntity<Boolean>(false, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping(path = "/api/v1/checkInOut/checksInOut")
 	public ResponseEntity<?> update(@Valid @RequestBody CheckInOutEntity entity) {
 		CheckInOutModel model = service.update(entity);
@@ -131,7 +131,7 @@ public class CheckInOutController {
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.CREATED);
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/checkInOut/checksInOut")
 	public ResponseEntity<?> findAll() {
 		List<CheckInOutModel> list = service.findAll();
@@ -139,7 +139,7 @@ public class CheckInOutController {
 		return new ResponseEntity<List<CheckInOutModel>>(list, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/checkInOut/checksInOut/{id}")
 	public ResponseEntity<?> findById(@Valid @PathVariable("id") Long id) {
 		CheckInOutModel model = service.findById(id);
@@ -150,7 +150,7 @@ public class CheckInOutController {
 		return new ResponseEntity<CheckInOutModel>(model, HttpStatus.OK);
 	}
 
-	@PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/checkInOut/findByPlate/{plate}")
 	public ResponseEntity<?> findByPlate(@Valid @PathVariable("plate") String plate) {
 		CheckInOutModel model = service.findByPlateAndStatus(plate, false);
