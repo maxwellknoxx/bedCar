@@ -29,7 +29,7 @@ public class PaymentServiceImpl implements PaymentService {
 
 	@Override
 	public PaymentModel findById(Long id) {
-		PaymentEntity entityFromDB = repository.findById(id).orElseThrow();
+		PaymentEntity entityFromDB = repository.findById(id).orElse(null);
 		if (entityFromDB == null) {
 			return null;
 		}

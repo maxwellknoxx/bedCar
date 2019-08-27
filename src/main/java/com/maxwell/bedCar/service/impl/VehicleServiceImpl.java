@@ -45,7 +45,7 @@ public class VehicleServiceImpl implements VehicleService {
 
 	@Override
 	public VehicleModel findById(Long id) {
-		VehicleEntity entity = repository.findById(id).orElseThrow();
+		VehicleEntity entity = repository.findById(id).orElse(null);
 		if (entity == null) {
 			return null;
 		}
@@ -53,7 +53,7 @@ public class VehicleServiceImpl implements VehicleService {
 	}
 	
 	public VehicleEntity getVehicleById(Long id) {
-		VehicleEntity entity = repository.findById(id).orElseThrow();
+		VehicleEntity entity = repository.findById(id).orElse(null);
 		if (entity == null) {
 			return null;
 		}

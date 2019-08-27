@@ -28,7 +28,7 @@ public class CheckInOutServiceImpl implements CheckInOutService {
 
 	@Override
 	public CheckInOutModel findById(Long id) {
-		CheckInOutEntity entity = repository.findById(id).orElseThrow();
+		CheckInOutEntity entity = repository.findById(id).orElse(null);
 		if (entity == null) {
 			return null;
 		}

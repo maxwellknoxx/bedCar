@@ -38,7 +38,7 @@ public class SpaceServiceImpl implements SpaceService {
 
 	@Override
 	public SpaceModel findById(Long id) {
-		SpaceEntity entity = repository.findById(id).orElseThrow();
+		SpaceEntity entity = repository.findById(id).orElse(null);
 		if (entity == null) {
 			return null;
 		}
@@ -46,7 +46,7 @@ public class SpaceServiceImpl implements SpaceService {
 	}
 
 	public SpaceEntity findEntityById(Long id) {
-		SpaceEntity entity = repository.findById(id).orElseThrow();
+		SpaceEntity entity = repository.findById(id).orElse(null);
 		if (entity == null) {
 			return null;
 		}
@@ -86,7 +86,7 @@ public class SpaceServiceImpl implements SpaceService {
 	}
 
 	public void updateSpaceById(Long id, Boolean status) {
-		SpaceEntity entity = repository.findById(id).orElseThrow();
+		SpaceEntity entity = repository.findById(id).orElse(null);
 		entity.setBusy(status);
 		repository.save(entity);
 	}
