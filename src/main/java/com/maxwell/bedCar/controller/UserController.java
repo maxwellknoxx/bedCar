@@ -37,7 +37,6 @@ public class UserController {
 	@Autowired
 	PasswordEncoder encoder;
 
-	//@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/user/users")
 	public ResponseEntity<?> findAll() {
 		List<UserModel> list = service.findAll();

@@ -33,7 +33,6 @@ public class SpaceController {
 	@Autowired
 	private MapValidationErrorService mapValidationErrorService;
 
-	@PreAuthorize("hasRole('ADMIN')")
 	@GetMapping(path = "/api/v1/space/spaces")
 	public ResponseEntity<?> findAll() {
 		List<SpaceModel> list = service.findAll();
